@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cambridge - Registration Form</title>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div class="page-wrapper">
+
+        <!-- Card container -->
+        <div class="card">
+
+            <!-- Form header -->
+            <div class="card-header">
+                <h1>Create Account</h1>
+            </div>
+
+            <!-- Registration form -->
+            <form class="reg-form" action="#" method="">
+
+                <!-- ── Row 1: First Name & Last Name ── -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="first-name" class="form-label">First Name <span class="required">*</span></label>
+                        <input type="text" id="first-name" name="first_name" required minlength="2" maxlength="50"
+                            autocomplete="given-name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="last-name" class="form-label">Last Name <span class="required">*</span></label>
+                        <input type="text" id="last-name" name="last_name" required minlength="2" maxlength="50"
+                            autocomplete="family-name">
+                    </div>
+
+                </div>
+
+                <!-- ── Email ── -->
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address <span class="required">*</span></label>
+                    <input type="email" id="email" name="email" required maxlength="254" autocomplete="email">
+                </div>
+
+                <!-- ── Row 2: Password & Confirm Password ── -->
+                <div class="form-row">
+
+                    <!-- minlength + pattern enforce: ≥8 chars, ≥1 digit, ≥1 letter -->
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password <span class="required">*</span></label>
+                        <input type="password" id="password" name="password" required minlength="8" maxlength="128"
+                            pattern="^(?=.*[A-Za-z])(?=.*\d).{8,}$" autocomplete="new-password">
+                        <small class="hint">8+ chars · one letter · one number</small>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="confirm-password" class="form-label">Confirm Password <span
+                                class="required">*</span></label>
+                        <input type="password" id="confirm-password" name="confirm_password" required minlength="8"
+                            maxlength="128" autocomplete="new-password">
+                    </div>
+
+                </div>
+
+                <!-- ── Date of Birth ── -->
+                <div class="form-group">
+                    <label for="dob" class="form-label">Date of Birth <span class="required">*</span></label>
+                    <input type="date" id="dob" name="dob" required max="2027-01-01" min="1900-01-01">
+                </div>
+
+                <!-- ── Gender ── -->
+                <div class="form-group">
+                    <label class="group-label form-label">Gender <span class="required">*</span></label>
+                    <div class="radio-group">
+
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="male" required>
+                            <span class="radio-custom"></span>
+                            Male
+                        </label>
+
+                        <label class="radio-label">
+                            <input type="radio" name="gender" value="female" required>
+                            <span class="radio-custom"></span>
+                            Female
+                        </label>
+
+                    </div>
+                </div>
+
+                <!-- ── Profession dropdown ── -->
+                <div class="form-group">
+                    <label for="profession" class="form-label">Choose Your Profession <span
+                            class="required">*</span></label>
+                    <select id="profession" name="profession" required>
+                        <option value="" disabled selected>Select a profession…</option>
+                        <option value="web-dev">Web Development</option>
+                        <option value="data-analytics">Data Analytics</option>
+                        <option value="ui-ux">UI/UX Design</option>
+                        <option value="mobile-dev">Mobile Development</option>
+                        <option value="devops">DevOps &amp; Cloud</option>
+                        <option value="cybersecurity">Cybersecurity</option>
+                        <option value="ml-ai">Machine Learning / AI</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <!-- ── About Me ── -->
+                <div class="form-group">
+                    <label for="about" class="form-label">About Me</label>
+                    <textarea id="about" name="about" rows="4" maxlength="500"></textarea>
+                    <small class="hint">Optional · max 500 characters</small>
+                </div>
+
+                <!-- ── Submit ── -->
+                <button type="submit" class="btn-submit">Submit</button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+
+</html>
