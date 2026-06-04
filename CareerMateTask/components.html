@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CareerMate AI — Component Library</title>
+    <link rel="stylesheet" href="./styles.css">
+</head>
+
+<!--
+    =====================================================================
+    Reusable Component Library / Style-guide reference
+    ---------------------------------------------------------------------
+    This file documents the canonical HTML + class names for every
+    reusable UI component. Structure and class naming ONLY (no styles).
+    Use these patterns across index.html so naming stays consistent.
+
+    Naming convention (light BEM, kebab-case):
+      .block                  -> component root        (.card, .btn, .badge)
+      .block-element          -> a part of the block   (.card-title, .card-body)
+      .block--modifier        -> a variant of the block (.btn--primary)
+    For very common variants we also allow the short form .btn-primary.
+    =====================================================================
+-->
+
+<body class="components-page">
+
+    <main class="container">
+
+        <!-- ============================================================
+             1. BUTTONS  —  .btn  + variants
+             ============================================================ -->
+        <section class="component-group" id="buttons">
+            <h2 class="section-title">Buttons</h2>
+
+            <!-- Primary: main call-to-action -->
+            <button type="button" class="btn btn-primary">Primary</button>
+
+            <!-- Secondary: supporting action -->
+            <button type="button" class="btn btn-secondary">Secondary</button>
+
+            <!-- Outline: low-emphasis bordered action -->
+            <button type="button" class="btn btn-outline">Outline</button>
+
+            <!-- Ghost: text-only action (e.g. nav "Log in") -->
+            <button type="button" class="btn btn-ghost">Ghost</button>
+
+            <!-- Light: for use on dark / colored backgrounds (CTA banner) -->
+            <button type="button" class="btn btn-light">Light</button>
+
+            <!-- Size modifiers, combine with any variant -->
+            <button type="button" class="btn btn-primary btn-sm">Small</button>
+            <button type="button" class="btn btn-primary btn-lg">Large</button>
+
+            <!-- Disabled state -->
+            <button type="button" class="btn btn-primary" disabled>Disabled</button>
+
+            <!-- As a link (same look, anchor semantics) -->
+            <a href="#" class="btn btn-primary" role="button">Link button</a>
+        </section>
+
+        <!-- ============================================================
+             2. BADGE / PILL  —  .badge  /  .pill
+             ============================================================ -->
+        <section class="component-group" id="badges">
+            <h2 class="section-title">Badges &amp; Pills</h2>
+
+            <!-- Badge: small status / category label -->
+            <span class="badge">New</span>
+            <span class="badge badge-primary">Pro</span>
+            <span class="badge badge-success">Active</span>
+            <span class="badge badge-muted">Beta</span>
+
+            <!-- Pill: fully rounded label, optional leading dot/icon -->
+            <span class="pill">
+                <span class="pill-dot" aria-hidden="true"></span>
+                AI Powered
+            </span>
+            <span class="pill pill-outline">Free Plan</span>
+        </section>
+
+        <!-- ============================================================
+             3. AVATAR + USER DROPDOWN  —  .avatar-container / .avatar
+             ============================================================ -->
+        <section class="component-group" id="avatar">
+            <h2 class="section-title">Avatar &amp; User Menu</h2>
+
+            <!-- Standalone avatar (placeholder image) -->
+            <span class="avatar" aria-label="User avatar">
+                <span class="placeholder placeholder-avatar" aria-hidden="true"></span>
+            </span>
+
+            <!-- Avatar size modifiers -->
+            <span class="avatar avatar-sm"><span class="placeholder placeholder-avatar" aria-hidden="true"></span></span>
+            <span class="avatar avatar-lg"><span class="placeholder placeholder-avatar" aria-hidden="true"></span></span>
+
+            <!-- Avatar with status badge overlay -->
+            <span class="avatar">
+                <span class="placeholder placeholder-avatar" aria-hidden="true"></span>
+                <span class="avatar-status avatar-status-online" aria-label="Online"></span>
+            </span>
+
+            <!--
+                Avatar + dropdown menu container.
+                .is-open toggles visibility of .user-menu (handled later in app.js).
+            -->
+            <div class="avatar-container" data-dropdown>
+                <button type="button" class="avatar-trigger" aria-haspopup="true" aria-expanded="false">
+                    <span class="avatar">
+                        <span class="placeholder placeholder-avatar" aria-hidden="true"></span>
+                    </span>
+                    <span class="avatar-name">Alex P.</span>
+                    <span class="avatar-caret" aria-hidden="true"></span>
+                </button>
+
+                <div class="user-menu" role="menu" hidden>
+                    <div class="user-menu-header">
+                        <span class="avatar avatar-sm">
+                            <span class="placeholder placeholder-avatar" aria-hidden="true"></span>
+                        </span>
+                        <div class="user-menu-id">
+                            <p class="user-menu-name">Alex P.</p>
+                            <p class="user-menu-email">alex@example.com</p>
+                        </div>
+                    </div>
+
+                    <ul class="user-menu-list">
+                        <li><a href="#" class="user-menu-item" role="menuitem">Profile</a></li>
+                        <li><a href="#" class="user-menu-item" role="menuitem">Dashboard</a></li>
+                        <li><a href="#" class="user-menu-item" role="menuitem">Settings</a></li>
+                    </ul>
+
+                    <div class="user-menu-footer">
+                        <a href="#" class="user-menu-item user-menu-item-danger" role="menuitem">Log out</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             4. CARD (base)  —  .card  + parts + variants
+             ============================================================ -->
+        <section class="component-group" id="cards">
+            <h2 class="section-title">Cards</h2>
+
+            <!-- Base card: media + body + footer parts -->
+            <article class="card">
+                <div class="card-media">
+                    <span class="placeholder placeholder-thumb" aria-hidden="true"></span>
+                </div>
+                <div class="card-body">
+                    <h3 class="card-title">Card Title</h3>
+                    <p class="card-text">A short supporting description for this card.</p>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="btn btn-ghost btn-sm">Learn more</a>
+                </div>
+            </article>
+
+            <!-- Feature card variant: icon + title + text -->
+            <article class="card card-feature">
+                <div class="card-icon">
+                    <span class="placeholder placeholder-icon" aria-hidden="true"></span>
+                </div>
+                <h3 class="card-title">Feature Card</h3>
+                <p class="card-text">Describes one product capability in a sentence or two.</p>
+            </article>
+
+            <!-- Testimonial card variant: quote + avatar + author -->
+            <article class="card card-testimonial">
+                <span class="avatar avatar-lg">
+                    <span class="placeholder placeholder-avatar" aria-hidden="true"></span>
+                </span>
+                <blockquote class="card-quote">
+                    <p>“This product changed how I prepare for interviews.”</p>
+                </blockquote>
+                <p class="card-author">Jordan M. — Recent Grad</p>
+            </article>
+
+            <!-- Promo card variant: highlighted / colored callout -->
+            <article class="card card-promo">
+                <div class="card-body">
+                    <span class="badge badge-primary">Promo</span>
+                    <h3 class="card-title">Promo Card</h3>
+                    <p class="card-text">A highlighted callout used for emphasis sections.</p>
+                </div>
+                <div class="card-media">
+                    <span class="placeholder placeholder-rocket" aria-hidden="true"></span>
+                </div>
+            </article>
+        </section>
+
+    </main>
+
+    <script src="./app.js"></script>
+</body>
+
+</html>
