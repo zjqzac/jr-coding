@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
+  <style>
+    *,
+    *::before,
+    *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
+    }
+
+    :root {
+      --bg: #fff;
+      --surface: #1a1a1a;
+      --surface-hover: #222;
+      --border: #2a2a2a;
+      --border-focus: #c9a96e;
+      --text: #e8e4df;
+      --text-muted: #8a8580;
+      --accent: #c9a96e;
+      --accent-glow: rgba(201, 169, 110, .15);
+      --error: #e05252;
+      --error-bg: rgba(224, 82, 82, .08);
+      --success: #5cb87a;
+      --success-bg: rgba(92, 184, 122, .1);
+      --radius: 10px;
+      --font-display: 'DM Serif Display', Georgia, serif;
+      --font-body: 'DM Sans', system-ui, sans-serif;
+    }
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+      font-family: var(--font-body);
+      color: var(--text);
+      padding: 2rem 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* ---------- 背景装饰 ---------- */
+    body::before {
+      content: '';
+      position: fixed;
+      top: -40%;
+      left: -20%;
+      width: 70vw;
+      height: 70vw;
+      background: radial-gradient(circle, rgba(201, 169, 110, .06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -30%;
+      right: -15%;
+      width: 55vw;
+      height: 55vw;
+      background: radial-gradient(circle, rgba(201, 169, 110, .04) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ---------- 卡片容器 ---------- */
+    .card {
+      width: 100%;
+      max-width: 480px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 3rem 2.5rem;
+      position: relative;
+      animation: cardIn .7s cubic-bezier(.22, 1, .36, 1) both;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(24px) scale(.97);
+      }
+    }
+
+    /* 顶部装饰线 */
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 2.5rem;
+      right: 2.5rem;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      border-radius: 0 0 2px 2px;
+      opacity: .6;
+    }
+
+    /* ---------- 标题区 ---------- */
+    .header {
+      text-align: center;
+      margin-bottom: 2.25rem;
+    }
+
+    .header h1 {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 400;
+      letter-spacing: .02em;
+      color: var(--text);
+      margin-bottom: .4rem;
+    }
+
+    .header p {
+      font-size: .875rem;
+      color: var(--text-muted);
+      letter-spacing: .03em;
+    }
+
+    /* ---------- 表单组 ---------- */
+    .field {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    .field label {
+      display: block;
+      font-size: .75rem;
+      font-weight: 600;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: .5rem;
+      transition: color .25s;
+    }
+
+    .field label .required {
+      color: var(--accent);
+      margin-left: 2px;
+    }
+
+    .field input,
+    .field textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1.5px solid var(--border);
+      border-radius: var(--radius);
+      padding: .85rem 1rem;
+      font-family: var(--font-body);
+      font-size: .9375rem;
+      color: var(--text);
+      outline: none;
+      transition: border-color .25s, box-shadow .25s, background .25s;
+    }
+
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: var(--text-muted);
+      opacity: .5;
+    }
+
+    .field input:hover,
+    .field textarea:hover {
+      background: var(--surface-hover);
+    }
+
+    .field input:focus,
+    .field textarea:focus {
+      border-color: var(--border-focus);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+      background: var(--surface);
+    }
+
+    .field textarea {
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    /* 错误状态 */
+    .field.has-error label {
+      color: var(--error);
+    }
+
+    .field.has-error input,
+    .field.has-error textarea {
+      border-color: var(--error);
+      background: var(--error-bg);
+    }
+
+    .field .error-msg {
+      display: none;
+      font-size: .78rem;
+      color: var(--error);
+      margin-top: .4rem;
+      padding-left: .15rem;
+      animation: shake .35s ease;
+    }
+
+    .field.has-error .error-msg {
+      display: block;
+    }
+
+    @keyframes shake {
+
+      0%,
+      100% {
+        transform: translateX(0);
+      }
+
+      20% {
+        transform: translateX(-4px);
+      }
+
+      40% {
+        transform: translateX(4px);
+      }
+
+      60% {
+        transform: translateX(-3px);
+      }
+
+      80% {
+        transform: translateX(2px);
+      }
+    }
+
+    /* ---------- 提交按钮 ---------- */
+    .submit-btn {
+      width: 100%;
+      padding: 1rem;
+      margin-top: .5rem;
+      border: none;
+      border-radius: var(--radius);
+      font-family: var(--font-body);
+      font-size: .9375rem;
+      font-weight: 600;
+      letter-spacing: .04em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all .3s cubic-bezier(.22, 1, .36, 1);
+      color: var(--bg);
+      background: var(--accent);
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 24px rgba(201, 169, 110, .25);
+    }
+
+    .submit-btn:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .submit-btn:disabled {
+      cursor: not-allowed;
+      opacity: .7;
+    }
+
+    /* 按钮内容切换 */
+    .btn-content {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      transition: opacity .2s;
+    }
+
+    /* Loading spinner */
+    .spinner {
+      display: none;
+      width: 18px;
+      height: 18px;
+      border: 2.5px solid rgba(15, 15, 15, .2);
+      border-top-color: var(--bg);
+      border-radius: 50%;
+      animation: spin .65s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .submit-btn.is-loading .spinner {
+      display: block;
+    }
+
+    /* 成功状态 */
+    .submit-btn.is-success {
+      background: var(--success);
+    }
+
+    .checkmark {
+      display: none;
+      width: 18px;
+      height: 18px;
+    }
+
+    .submit-btn.is-success .checkmark {
+      display: block;
+    }
+
+    /* ---------- 成功提示横幅 ---------- */
+    .success-banner {
+      display: none;
+      align-items: center;
+      gap: .6rem;
+      margin-top: 1.25rem;
+      padding: .85rem 1rem;
+      background: var(--success-bg);
+      border: 1px solid rgba(92, 184, 122, .2);
+      border-radius: var(--radius);
+      font-size: .85rem;
+      color: var(--success);
+      animation: fadeUp .4s ease both;
+    }
+
+    .success-banner.visible {
+      display: flex;
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+    }
+
+    .success-icon {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+    }
+
+    /* ---------- 响应式 ---------- */
+    @media (max-width: 520px) {
+      .card {
+        padding: 2rem 1.5rem;
+      }
+
+      .header h1 {
+        font-size: 1.65rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="card">
+    <div class="header">
+      <h1>联系我们</h1>
+      <p>填写以下信息，我们会尽快回复</p>
+    </div>
+
+    <form id="contactForm" novalidate>
+      <!-- 姓名 -->
+      <div class="field" data-field="name">
+        <label for="name">姓名 <span class="required">*</span></label>
+        <input type="text" id="name" name="name" placeholder="请输入您的姓名" autocomplete="name">
+        <div class="error-msg">请填写姓名</div>
+      </div>
+
+      <!-- 邮箱 -->
+      <div class="field" data-field="email">
+        <label for="email">邮箱 <span class="required">*</span></label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email">
+        <div class="error-msg">请输入有效的邮箱地址</div>
+      </div>
+
+      <!-- 留言 -->
+      <div class="field" data-field="message">
+        <label for="message">留言 <span class="required">*</span></label>
+        <textarea id="message" name="message" placeholder="请输入留言内容…"></textarea>
+        <div class="error-msg">请填写留言内容</div>
+      </div>
+
+      <!-- 提交按钮 -->
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span class="btn-content">
+          <!-- 默认文字 -->
+          <span class="btn-label">提交</span>
+          <!-- Loading spinner -->
+          <span class="spinner"></span>
+          <!-- 成功 checkmark -->
+          <svg class="checkmark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </span>
+      </button>
+    </form>
+
+    <!-- 成功横幅 -->
+    <div class="success-banner" id="successBanner">
+      <svg class="success-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+        stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="16 9 10.5 14.5 8 12" />
+      </svg>
+      <span>消息已发送成功，感谢您的留言！</span>
+    </div>
+  </div>
+
+  <script>
+    // ========== DOM 引用 ==========
+    const form = document.getElementById('contactForm');
+    const btn = document.getElementById('submitBtn');
+    const btnLabel = btn.querySelector('.btn-label');
+    const banner = document.getElementById('successBanner');
+
+    // ========== 验证规则 ==========
+    const validators = {
+      name: (v) => v.trim().length > 0,
+      email: (v) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()),
+      message: (v) => v.trim().length > 0,
+    };
+
+    // ========== 实时清除错误：输入时移除该字段的错误状态 ==========
+    Object.keys(validators).forEach((key) => {
+      const el = document.getElementById(key);
+      el.addEventListener('input', () => {
+        el.closest('.field').classList.remove('has-error');
+      });
+    });
+
+    // ========== 验证所有字段 ==========
+    function validateForm() {
+      let isValid = true;
+
+      Object.entries(validators).forEach(([key, check]) => {
+        const field = document.querySelector(`.field[data-field="${key}"]`);
+        const value = document.getElementById(key).value;
+
+        if (!check(value)) {
+          field.classList.add('has-error');
+          isValid = false;
+        } else {
+          field.classList.remove('has-error');
+        }
+      });
+
+      return isValid;
+    }
+
+    // ========== 模拟异步提交 ==========
+    function simulateSubmit() {
+      return new Promise((resolve) => setTimeout(resolve, 1800));
+    }
+
+    // ========== 表单提交处理 ==========
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // 1. 验证
+      if (!validateForm()) return;
+
+      // 2. 进入 loading 状态 —— 禁用按钮，防止重复点击
+      btn.disabled = true;
+      btn.classList.add('is-loading');
+      btnLabel.textContent = '提交中…';
+
+      try {
+        // 3. 模拟网络请求
+        await simulateSubmit();
+
+        // 4. 切换到成功状态
+        btn.classList.remove('is-loading');
+        btn.classList.add('is-success');
+        btnLabel.textContent = '已提交';
+
+        // 显示成功横幅
+        banner.classList.add('visible');
+
+        // 5. 2.5 秒后恢复按钮初始状态
+        setTimeout(() => {
+          btn.disabled = false;
+          btn.classList.remove('is-success');
+          btnLabel.textContent = '提交';
+          banner.classList.remove('visible');
+          form.reset();
+        }, 2500);
+
+      } catch {
+        // 异常恢复
+        btn.disabled = false;
+        btn.classList.remove('is-loading');
+        btnLabel.textContent = '提交';
+      }
+    });
+  </script>
+
+</body>
+
+</html>
