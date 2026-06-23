@@ -2,11 +2,28 @@ import { useState } from 'react'
 import clsx from 'clsx'
 import './index.scss'
 
+type Status = 'idle' | 'loading' | 'success' | 'error'
+
+// 模拟后端登录接口：延迟 1 秒，账号密码对了 resolve，否则 reject
+function mockLogin(email: string, password: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (email === 'test@test.com' && password === '123456') {
+        resolve()
+      } else {
+        reject(new Error('Incorrect email or password'))
+      }
+    }, 1000)
+  })
+}
+
 function Login() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const [status, setStatus] = useState<Status>('idle')
+  const [error, setError] = useState('')
 
   const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -38,9 +55,23 @@ function Login() {
     }
   }
 
+  const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    setError('')
+    setStatus('loading')
+
+    try {
+      await mockLogin(email, password)
+      setStatus('success')
+    } catch (err) {
+      setStatus('error')
+      setError((err as Error).message)
+    }
+  }
+
   return (
     <div className="login">
-      <form className="login-card" onSubmit={(e) => e.preventDefault()}>
+      <form className="login-card" onSubmit={handleLogin}>
         <header className="login-head">
           <h1>Login</h1>
         </header>
@@ -69,9 +100,12 @@ function Login() {
           {passwordError && <p className="error-message">{passwordError}</p>}
         </div>
 
-        <button type="submit" className="submit">
-          Log In
+        <button type="submit" className="submit" disabled={status === 'loading'}>
+          {status === 'loading' ? 'Logging in...' : 'Login'}
         </button>
+
+        {status === 'error' && <p className="error-message">{error}</p>}
+        {status === 'success' && <p className="success-message">Login Success</p>}
       </form>
     </div>
   )

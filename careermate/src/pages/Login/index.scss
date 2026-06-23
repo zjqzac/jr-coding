@@ -111,5 +111,23 @@
     &:active {
       transform: translateY(1px);
     }
+
+    &:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      filter: none;
+      transform: none;
+    }
+  }
+
+  .submit + .error-message,
+  .success-message {
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+  }
+
+  .success-message {
+    color: #2e9e4f;
   }
 }
