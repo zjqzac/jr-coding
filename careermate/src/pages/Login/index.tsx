@@ -1,5 +1,7 @@
 import { useState } from 'react'
-import clsx from 'clsx'
+import TextInput from '@/Components/TextInput'
+import { useEmail } from '@/Hooks/useEmail'
+import { validateLogin, validatePassword } from '@/utils/validators'
 import './index.scss'
 
 type Status = 'idle' | 'loading' | 'success' | 'error'
@@ -18,48 +20,31 @@ function mockLogin(email: string, password: string): Promise<void> {
 }
 
 function Login() {
-  const [email, setEmail] = useState('')
+  const { email, emailError, emailChange } = useEmail()
   const [password, setPassword] = useState('')
-  const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
 
-  const emailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setEmail(value)
-
-    if (value === '') {
-      setEmailError('Email 不能为空')
-    } else if (!value.includes('@')) {
-      setEmailError('Email 必须包含 @')
-    } else if (value.length > 50) {
-      setEmailError('Email 不能超过 50 个字符')
-    } else {
-      setEmailError('')
-    }
-  }
-
   const passwordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
     setPassword(value)
-
-    if (value === '') {
-      setPasswordError('Password 不能为空')
-    } else if (value.length < 6) {
-      setPasswordError('Password 不能少于 6 个字符')
-    } else if (value.length > 20) {
-      setPasswordError('Password 不能超过 20 个字符')
-    } else {
-      setPasswordError('')
-    }
+    setPasswordError(validatePassword(value))
   }
 
   const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
-    setStatus('loading')
 
+    // 提交前先做整体校验，有错误就直接展示、不请求接口
+    const errMsg = validateLogin(email, password)
+    if (errMsg) {
+      setStatus('error')
+      setError(errMsg)
+      return
+    }
+
+    setStatus('loading')
     try {
       await mockLogin(email, password)
       setStatus('success')
@@ -76,29 +61,23 @@ function Login() {
           <h1>Login</h1>
         </header>
 
-        <div className={clsx('field', emailError && 'has-error')}>
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={emailChange}
-          />
-          {emailError && <p className="error-message">{emailError}</p>}
-        </div>
+        <TextInput
+          label="Email"
+          type="email"
+          placeholder="you@example.com"
+          value={email}
+          onChange={emailChange}
+          error={emailError}
+        />
 
-        <div className={clsx('field', passwordError && 'has-error')}>
-          <label htmlFor="password">Password</label>
-          <input
-            id="password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={passwordChange}
-          />
-          {passwordError && <p className="error-message">{passwordError}</p>}
-        </div>
+        <TextInput
+          label="Password"
+          type="password"
+          placeholder="••••••••"
+          value={password}
+          onChange={passwordChange}
+          error={passwordError}
+        />
 
         <button type="submit" className="submit" disabled={status === 'loading'}>
           {status === 'loading' ? 'Logging in...' : 'Login'}
