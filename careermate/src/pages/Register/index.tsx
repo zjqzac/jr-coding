@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import TextInput from '@/Components/TextInput'
 import { useEmail } from '@/Hooks/useEmail'
 import {
@@ -35,6 +35,8 @@ function Register() {
   const [confirmError, setConfirmError] = useState('')
   const [status, setStatus] = useState<Status>('idle')
   const [error, setError] = useState('')
+
+  const navigate = useNavigate()
 
   const nameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value
@@ -74,6 +76,9 @@ function Register() {
     try {
       await mockRegister(email)
       setStatus('success')
+      setTimeout(() => {
+        navigate('/')
+      }, 1000)
     } catch (err) {
       setStatus('error')
       setError((err as Error).message)
