@@ -83,4 +83,27 @@
   .success-message {
     color: #2e9e4f;
   }
+
+  .switch-hint {
+    margin: 20px 0 0;
+    text-align: center;
+    font-size: 14px;
+    color: var(--text);
+  }
+
+  .switch-link {
+    padding: 0;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: var(--sans);
+    color: var(--accent);
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
 }

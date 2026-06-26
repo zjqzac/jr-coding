@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import TextInput from '@/Components/TextInput'
 import { useEmail } from '@/Hooks/useEmail'
 import {
@@ -128,6 +129,13 @@ function Register() {
 
         {status === 'error' && <p className="error-message">{error}</p>}
         {status === 'success' && <p className="success-message">Register Success</p>}
+
+        <p className="switch-hint">
+          Already have an account?{' '}
+          <Link className="switch-link" to="/">
+            Login
+          </Link>
+        </p>
       </form>
     </div>
   )

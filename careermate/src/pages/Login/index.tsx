@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import TextInput from '@/Components/TextInput'
 import { useEmail } from '@/Hooks/useEmail'
 import { validateLogin, validatePassword } from '@/utils/validators'
@@ -85,6 +86,13 @@ function Login() {
 
         {status === 'error' && <p className="error-message">{error}</p>}
         {status === 'success' && <p className="success-message">Login Success</p>}
+
+        <p className="switch-hint">
+          Don't have an account?{' '}
+          <Link className="switch-link" to="/register">
+            Register
+          </Link>
+        </p>
       </form>
     </div>
   )
